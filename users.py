@@ -32,3 +32,6 @@ class Users:
 		c.execute("INSERT INTO users(nom,prenom,username,passwordHash,mail,site) VALUES (?,?,?,?,?,?)",(self.nom,self.prenom,self.username,self.passwordHash,self.mail,self.site,))
 		#c.execute("INSERT INTO users (id,nom,prenom,username,passwordHash,mail,site)")
 		database.conn.commit()
+
+		def login(self):
+			
