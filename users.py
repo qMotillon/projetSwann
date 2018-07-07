@@ -124,16 +124,16 @@ class Users:
 		elif(whatToEdit == "7"):
 			newData = int(input("Site 1: Paris, Site 2 : Nantes, Site 3 : Lyon, Site 4 : Strasbourg\n"))
 			if (newData == 1):
-				c.execute("UPDATE users SET site=:'PARIS' WHERE username=:search OR id=:search",{"search": search})
+				c.execute("UPDATE users SET site='PARIS' WHERE username=:search OR id=:search",{"search": search})
 				database.conn.commit()
 			elif (newData == 2):
-				c.execute("UPDATE users SET site=:'NANTES' WHERE username=:search OR id=:search",{"search": search})
+				c.execute("UPDATE users SET site='NANTES' WHERE username=:search OR id=:search",{"search": search})
 				database.conn.commit()
 			elif (newData == 3):
-				c.execute("UPDATE users SET site=:'LYON' WHERE username=:search OR id=:search",{"search": search})
+				c.execute("UPDATE users SET site='LYON' WHERE username=:search OR id=:search",{"search": search})
 				database.conn.commit()
 			else:
-				c.execute("UPDATE users SET site=:'STRASBOURG' WHERE username=:search OR id=:search",{"search": search})
+				c.execute("UPDATE users SET site='STRASBOURG' WHERE username=:search OR id=:search",{"search": search})
 				database.conn.commit()
 		elif (whatToEdit == "8"):
 			c.execute("DELETE FROM users WHERE username=:search OR id=:search", {"search": search})
