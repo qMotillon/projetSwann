@@ -5,7 +5,7 @@ class Users:
 	id = 1;
 	username = ""
 	role=""
-	passwordHash= ""
+	password_hash= ""
 	mail = ""
 	site = ""
 	c = database.conn.cursor()
@@ -13,8 +13,8 @@ class Users:
 		self.nom = input("Quel est son nom ?\n").upper()
 		self.prenom = input("Quel est son prénom ?\n").upper()
 		self.username = self.prenom[0] + self.nom
-		self.passwordHash = input("Entre ton mdp\n")
-		self.passwordHash = md5(self.passwordHash.encode('utf-8')).hexdigest()
+		self.password_hash = input("Entre ton mdp\n")
+		self.password_hash = md5(self.password_hash.encode('utf-8')).hexdigest()
 		self.mail = input("Entre son mail lol \n").upper()
 		self.site = int(input("Site 1: Paris, Site 2 : Nantes, Site 3 : Lyon, Site 4 : Strasbourg\n"))
 		if(self.site == 1):
@@ -27,13 +27,13 @@ class Users:
 			self.site="STRASBOURG"
 		self.role = input("Souhaitez vous que l'user soit un Admin? 1 = Oui, * = Non\n")
 		if(self.role =="1"):
-			self.role="admin"
+			self.role="ADMIN"
 		else:
-			self.role="user"
+			self.role="USER"
 		c = database.conn.cursor()
-		c.execute("CREATE TABLE IF NOT EXISTS users (id INTEGER PRIMARY KEY,role,nom,prenom,username,passwordHash,mail,site)")
-		c.execute("INSERT INTO users(role,nom,prenom,username,passwordHash,mail,site) VALUES (?,?,?,?,?,?,?)",(self.role,self.nom,self.prenom,self.username,self.passwordHash,self.mail,self.site,))
-		#c.execute("INSERT INTO users (id,nom,prenom,username,passwordHash,mail,site)")
+		c.execute("CREATE TABLE IF NOT EXISTS users (id INTEGER PRIMARY KEY,role,nom,prenom,username,password_hash,mail,site)")
+		c.execute("INSERT INTO users(role,nom,prenom,username,password_hash,mail,site) VALUES (?,?,?,?,?,?,?)", (self.role, self.nom, self.prenom, self.username, self.password_hash, self.mail, self.site,))
+		#c.execute("INSERT INTO users (id,nom,prenom,username,password_hash,mail,site)")
 		database.conn.commit()
 
 	def login(self):
@@ -52,7 +52,7 @@ class Users:
 				print("Mauvais password\n")
 				password = input("Entre votre mdp : \n")
 				password = md5(password.encode('utf-8')).hexdigest()
-			if(data[1] != "admin"):
+			if(data[1] != "ADMIN"):
 				print("Vous n'êtes pas admin")
 			print("Connexion Réussi !!\n")
 			self.id = data[0]
@@ -60,27 +60,46 @@ class Users:
 			self.prenom = data[2]
 			self.nom = data[3]
 			self.username = data[4]
-			self.passwordHash = data[5]
+			self.password_hash = data[5]
 			self.mail = data[6]
 			self.site = data[7]
 
-	def change_role(self):
+	def edit_or_delete(self):
 		print("____________________________________________\n")
-		username = input("Vous voulez changer le role de quel user ?(Rentrer username) \n").upper()
+		search = input("Quel user souhaitez vous modifier?(Rentrer username ou ID) \n").upper()
 		c = database.conn.cursor()
-		c.execute("SELECT id FROM users WHERE username=:pseudo",{"pseudo" : username})
+		c.execute("SELECT * FROM users WHERE username=:search OR id=:search",{"search" : search})
 		data = c.fetchone()
-		if(data == None):
+		while(data == None):
 			print("Mauvais Username!\n")
-			self.change_role()
-		else:
+			username = input("Vous voulez changer le role de quel user ?(Rentrer username) \n").upper()
+			c.execute("SELECT * FROM users WHERE username=:pseudo", {"pseudo": username})
+			data = c.fetchone()
+		whatToEdit= input("Que souhaitez vous modifier ?\n 1- Role\n2- Nom\n3- Prenom\n4- Username\n 5- Password\n 6- Mail\n7- Site\n8- /!\ Suppression /!\ ").upper()
+		if(whatToEdit == "1"):
 			role = input("Souhaitez vous que l'user soit un Admin? 1 = Oui, * = Non\n")
 			if (role == "1"):
-				c.execute("UPDATE users SET role='admin' WHERE username=:pseudo", {"pseudo": username})
+				c.execute("UPDATE users SET role='ADMIN' WHERE username=:pseudo", {"pseudo": username})
 				database.conn.commit()
 			else:
-				c.execute("UPDATE users SET role='user' WHERE username=:pseudo", {"pseudo": username})
+				c.execute("UPDATE users SET role='USER' WHERE username=:pseudo", {"pseudo": username})
 				database.conn.commit()
+		elif(whatToEdit == "2"):
+			print("hello")
+		elif(whatToEdit == "3"):
+			print("hello")
+		elif(whatToEdit == "4"):
+			print("hello")
+		elif(whatToEdit == "5"):
+			print("hello")
+		elif(whatToEdit == "6"):
+			print("hello")
+		elif(whatToEdit == "7"):
+			print("hello")
+		elif (whatToEdit == "8"):
+			print("hello")
+		else:
+			print("hello")
 
 	def search_users(self):
 		print("____________________________________________\n Vous pouvez rechercher un utilisateur par son username,nom/prenom, ou son id, ou vous pouvez même rechercher tous les users d'un site.\n")
