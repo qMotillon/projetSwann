@@ -1,6 +1,8 @@
 from users import Users
 
 user=Users()
-user.login();
-print(user.username)
+user.search_users()
+user.login()
+user.change_role()
+
 a=input("Ecris ce que tu veux")
