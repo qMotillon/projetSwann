@@ -72,8 +72,8 @@ class Users:
 		c.execute("SELECT * FROM users WHERE username=:search OR id=:search",{"search" : search})
 		data = c.fetchone()
 		while(data == None):
-			print("Mauvais Username!\n")
-			username = input("Vous voulez changer le role de quel user ?(Rentrer username) \n").upper()
+			print("Mauvais Username ou ID!\n")
+			search = input("Vous voulez changer le role de quel user ?(Rentrer username) \n").upper()
 			c.execute("SELECT * FROM users WHERE username=:search OR id=:search", {"search": search})
 			data = c.fetchone()
 		whatToEdit= input("Que souhaitez vous modifier ?\n 1- Role\n2- Nom\n3- Prenom\n4- Username\n 5- Password\n 6- Mail\n7- Site\n8- /!\ Suppression /!\ ").upper()
@@ -89,9 +89,10 @@ class Users:
 			newData=input("Quel nouvel valeur souhaitez vous?\n").upper()
 			username=input("Souhaitez vous que l'username soit également changé?1 - Oui\n")
 			if(username=="1"):
+				print(data[3])
 				prenom = data[3]
 				username = prenom[0] + newData
-				c.execute("UPDATE users SET nom=:newData AND username=:username  WHERE username=:search OR id=:search", {"search": search,"newData": newData,"username": username})
+				c.execute("UPDATE users SET nom=:newData,username=:username  WHERE username=:search OR id=:search", {"search": search,"newData": newData,"username": username})
 				database.conn.commit()
 			else:
 				c.execute("UPDATE users SET nom=:newData WHERE username=:search OR id=:search", {"search": search,"newData": newData})
@@ -102,21 +103,41 @@ class Users:
 			if(username=="1"):
 				nom = data[2]
 				username = newData[0] + nom
-				c.execute("UPDATE users SET prenom=:newData AND username=:username  WHERE username=:search OR id=:search", {"search": search,"newData": newData,"username": username})
+				c.execute("UPDATE users SET prenom=:newData,username=:username  WHERE username=:search OR id=:search", {"search": search,"newData": newData,"username": username})
 				database.conn.commit()
 			else:
 				c.execute("UPDATE users SET prenom=:newData WHERE username=:search OR id=:search", {"search": search,"newData": newData})
 				database.conn.commit()
 		elif(whatToEdit == "4"):
 			newData=input("Quel nouvel valeur souhaitez vous?\n").upper()
+			c.execute("UPDATE users SET username=:newData WHERE username=:search OR id=:search",{"search": search, "newData": newData})
+			database.conn.commit()
 		elif(whatToEdit == "5"):
-			newData=input("Quel nouvel valeur souhaitez vous?\n").upper()
+			newData=input("Quel nouvel valeur souhaitez vous?\n")
+			newData = md5(newData.encode('utf-8')).hexdigest()
+			c.execute("UPDATE users SET password_hash=:newData WHERE username=:search OR id=:search",{"search": search, "newData": newData})
+			database.conn.commit()
 		elif(whatToEdit == "6"):
 			newData=input("Quel nouvel valeur souhaitez vous?\n").upper()
+			c.execute("UPDATE users SET mail=:newData WHERE username=:search OR id=:search",{"search": search, "newData": newData})
+			database.conn.commit()
 		elif(whatToEdit == "7"):
-			newData=input("Quel nouvel valeur souhaitez vous?\n").upper()
+			newData = int(input("Site 1: Paris, Site 2 : Nantes, Site 3 : Lyon, Site 4 : Strasbourg\n"))
+			if (newData == 1):
+				c.execute("UPDATE users SET site=:'PARIS' WHERE username=:search OR id=:search",{"search": search})
+				database.conn.commit()
+			elif (newData == 2):
+				c.execute("UPDATE users SET site=:'NANTES' WHERE username=:search OR id=:search",{"search": search})
+				database.conn.commit()
+			elif (newData == 3):
+				c.execute("UPDATE users SET site=:'LYON' WHERE username=:search OR id=:search",{"search": search})
+				database.conn.commit()
+			else:
+				c.execute("UPDATE users SET site=:'STRASBOURG' WHERE username=:search OR id=:search",{"search": search})
+				database.conn.commit()
 		elif (whatToEdit == "8"):
-			print("hello")
+			c.execute("DELETE FROM users WHERE username=:search OR id=:search", {"search": search})
+			database.conn.commit()
 		else:
 			print("Erreur\n")
 
