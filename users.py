@@ -91,7 +91,7 @@ class Users:
 			if(username=="1"):
 				prenom = data[3]
 				username = prenom[0] + newData
-				c.execute("UPDATE users SET nom=:newData AND username=:username  WHERE username=:search OR id=:search", {"search": search,"nom","newData": newData,"username": username})
+				c.execute("UPDATE users SET nom=:newData AND username=:username  WHERE username=:search OR id=:search", {"search": search,"newData": newData,"username": username})
 				database.conn.commit()
 			else:
 				c.execute("UPDATE users SET nom=:newData WHERE username=:search OR id=:search", {"search": search,"newData": newData})
@@ -102,7 +102,7 @@ class Users:
 			if(username=="1"):
 				nom = data[2]
 				username = newData[0] + nom
-				c.execute("UPDATE users SET prenom=:newData AND username=:username  WHERE username=:search OR id=:search", {"search": search,"nom","newData": newData,"username": username})
+				c.execute("UPDATE users SET prenom=:newData AND username=:username  WHERE username=:search OR id=:search", {"search": search,"newData": newData,"username": username})
 				database.conn.commit()
 			else:
 				c.execute("UPDATE users SET prenom=:newData WHERE username=:search OR id=:search", {"search": search,"newData": newData})
