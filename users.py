@@ -54,6 +54,7 @@ class Users:
 				password = md5(password.encode('utf-8')).hexdigest()
 			if(data[1] != "ADMIN"):
 				print("Vous n'êtes pas admin")
+				self.login()
 			print("Connexion Réussi !!\n")
 			self.id = data[0]
 			self.role = data[1]
@@ -73,33 +74,51 @@ class Users:
 		while(data == None):
 			print("Mauvais Username!\n")
 			username = input("Vous voulez changer le role de quel user ?(Rentrer username) \n").upper()
-			c.execute("SELECT * FROM users WHERE username=:pseudo", {"pseudo": username})
+			c.execute("SELECT * FROM users WHERE username=:search OR id=:search", {"search": search})
 			data = c.fetchone()
 		whatToEdit= input("Que souhaitez vous modifier ?\n 1- Role\n2- Nom\n3- Prenom\n4- Username\n 5- Password\n 6- Mail\n7- Site\n8- /!\ Suppression /!\ ").upper()
 		if(whatToEdit == "1"):
 			role = input("Souhaitez vous que l'user soit un Admin? 1 = Oui, * = Non\n")
 			if (role == "1"):
-				c.execute("UPDATE users SET role='ADMIN' WHERE username=:pseudo", {"pseudo": username})
+				c.execute("UPDATE users SET role='ADMIN' WHERE username=:search OR id=:search", {"search": search})
 				database.conn.commit()
 			else:
-				c.execute("UPDATE users SET role='USER' WHERE username=:pseudo", {"pseudo": username})
+				c.execute("UPDATE users SET role='USER' WHERE username=:search OR id=:search", {"search": search})
 				database.conn.commit()
 		elif(whatToEdit == "2"):
-			print("hello")
+			newData=input("Quel nouvel valeur souhaitez vous?\n").upper()
+			username=input("Souhaitez vous que l'username soit également changé?1 - Oui\n")
+			if(username=="1"):
+				prenom = data[3]
+				username = prenom[0] + newData
+				c.execute("UPDATE users SET nom=:newData AND username=:username  WHERE username=:search OR id=:search", {"search": search,"nom","newData": newData,"username": username})
+				database.conn.commit()
+			else:
+				c.execute("UPDATE users SET nom=:newData WHERE username=:search OR id=:search", {"search": search,"newData": newData})
+				database.conn.commit()
 		elif(whatToEdit == "3"):
-			print("hello")
+			newData=input("Quel nouvel valeur souhaitez vous?\n").upper()
+			username=input("Souhaitez vous que l'username soit également changé?1 - Oui\n")
+			if(username=="1"):
+				nom = data[2]
+				username = newData[0] + nom
+				c.execute("UPDATE users SET prenom=:newData AND username=:username  WHERE username=:search OR id=:search", {"search": search,"nom","newData": newData,"username": username})
+				database.conn.commit()
+			else:
+				c.execute("UPDATE users SET prenom=:newData WHERE username=:search OR id=:search", {"search": search,"newData": newData})
+				database.conn.commit()
 		elif(whatToEdit == "4"):
-			print("hello")
+			newData=input("Quel nouvel valeur souhaitez vous?\n").upper()
 		elif(whatToEdit == "5"):
-			print("hello")
+			newData=input("Quel nouvel valeur souhaitez vous?\n").upper()
 		elif(whatToEdit == "6"):
-			print("hello")
+			newData=input("Quel nouvel valeur souhaitez vous?\n").upper()
 		elif(whatToEdit == "7"):
-			print("hello")
+			newData=input("Quel nouvel valeur souhaitez vous?\n").upper()
 		elif (whatToEdit == "8"):
 			print("hello")
 		else:
-			print("hello")
+			print("Erreur\n")
 
 	def search_users(self):
 		print("____________________________________________\n Vous pouvez rechercher un utilisateur par son username,nom/prenom, ou son id, ou vous pouvez même rechercher tous les users d'un site.\n")
