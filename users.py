@@ -47,13 +47,13 @@ class Users:
 		if(data == None):
 			print("Mauvais Username!\n")
 			self.login()
-		elif(data[1] != "admin"):
-			print("Vous n'êtes pas admin")
 		else:
 			while(password != data[5]):
 				print("Mauvais password\n")
 				password = input("Entre votre mdp : \n")
 				password = md5(password.encode('utf-8')).hexdigest()
+			if(data[1] != "admin"):
+				print("Vous n'êtes pas admin")
 			print("Connexion Réussi !!\n")
 			self.id = data[0]
 			self.role = data[1]
@@ -83,9 +83,19 @@ class Users:
 				database.conn.commit()
 
 	def search_users(self):
-		print("____________________________________________\n Vous pouvez rechercher un utilisateur par son username, ou son id, ou vous pouvez même rechercher tous les users d'un site.\n")
+		print("____________________________________________\n Vous pouvez rechercher un utilisateur par son username,nom/prenom, ou son id, ou vous pouvez même rechercher tous les users d'un site.\n")
 		search = input("Qui souhaitez vous chercher (id,username,site)\n").upper()
 		c = database.conn.cursor()
-		c.execute("SELECT * FROM users WHERE username=:search OR id=:search OR site=:search ",{"search" : search})
+		c.execute("SELECT id,role,nom,prenom,username,mail,site FROM users WHERE username=:search OR id=:search OR site=:search OR nom=:search OR prenom=:search",{"search" : search})
 		data = c.fetchall()
 		print(data)
+		while(data==[]):
+			print("Mauvaise recherche")
+			search = input("Qui souhaitez vous chercher (id,username,site)\n").upper()
+			c.execute("SELECT id,role,nom,prenom,username,mail,site FROM users WHERE username=:search OR id=:search OR site=:search OR nom=:search OR prenom=:search",{"search" : search})
+			data = c.fetchall()
+		print("ID  Role  Nom  Prenom  Username  Mail  Site ")
+		for i in range(0, len(data)):
+			for j in range(0, len(data[0])):
+				print(data[i][j],end="   ")
+			print("\n")
