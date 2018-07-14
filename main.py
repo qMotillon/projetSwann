@@ -1,11 +1,13 @@
 import portscan
 import bruteforce
-import mail_bombing
 import logs
+from ftp import *
 from users import Users
+from mail_bombing import SMTP
 
 
 user = Users()
+smtp=SMTP()
 
 def portscan_menu():
     choice = input("Press :\n1 to scan a range of ports\n2 to scan one port\n3 to cancel\n")
@@ -31,10 +33,12 @@ def users_menu():
         users_menu()
     elif choice == "2":
         logs.writeInLogSimple(user.username," a lancé la recherche d'User")
+        user.show_all_users()
         user.search_users()
         users_menu()
     elif choice == "3":
         logs.writeInLogSimple(user.username," a lancé l'édition ou suppression d'User")
+        user.show_all_users()
         user.edit_or_delete()
         users_menu()
     elif choice == "4":
@@ -43,6 +47,37 @@ def users_menu():
     else:
         print("Wrong key")
         users_menu()
+
+def ftp_menu():
+    choice = input("Press :\n1 pour Afficher le répertoire de travail actuel"
+                   "\n2 Listez les dossiers du ftp"
+                   "\n3 Etat du ftp"
+                   "\n4 Pour Push un fichier"
+                   "\n5 recup un audit ?"
+                   "\n6 quitter\n")
+    if choice == "1":
+        whereami()
+        ftp_menu()
+    elif choice == "2":
+        logs.writeInLogSimple(user.username, " a lancé le listage des dossiers")
+        list()
+        ftp_menu()
+    elif choice == "3":
+        logs.writeInLogSimple(user.username, " a demande l'etat du serveur ftp")
+        etat()
+        ftp_menu()
+    elif choice == "4":
+        logs.writeInLogSimple(user.username, " a lancé le push de fichier")
+        copie()
+        ftp_menu()
+    elif choice == "5":
+        logs.writeInLogSimple(user.username, " a lancé la recuperation du fichier d'audit")
+        ftp_menu()
+    elif choice == "6":
+        return
+    else:
+        print("Wrong key")
+        ftp_menu()
 
 
 def main_menu():
@@ -54,8 +89,8 @@ def main_menu():
         main_menu()
     elif choice == "2":
         logs.writeInLogSimple(user.username," à lancer la gestion FTP")
-
-        # manage_ftp()
+        checkdirect()
+        ftp_menu()
         main_menu()
     elif choice == "3":
         logs.writeInLogSimple(user.username," à lancer le bruteforce")
@@ -67,7 +102,7 @@ def main_menu():
         main_menu()
     elif choice == "5":
         logs.writeInLogSimple(user.username," à lancer le mail bombing")
-        mail_bombing.mail_bombing()
+        smtp.lancement()
         main_menu()
     elif choice == "6":
         # logs()
@@ -78,5 +113,5 @@ def main_menu():
         print("Wrong key")
         main_menu()
 
-user.login()
+#user.login()
 main_menu()

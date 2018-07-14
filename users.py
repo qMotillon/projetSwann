@@ -172,3 +172,17 @@ class Users:
 			for j in range(0, len(data[0])):
 				print(data[i][j],end="   ")
 			print("\n")
+
+	def show_all_users(self):
+		print("Affichage")
+		search = input("Avant tout definis ton site afin de te faciliter dans ta recherche d'utilisateur\n").upper()
+		c = database.conn.cursor()
+		c.execute("SELECT id,role,nom,prenom,username,mail,site FROM users WHERE site=:search", {"search": search})
+		data = c.fetchall()
+		print("Voici les utilisateur presents a ", search)
+		# print(data)
+		print("ID  Role  Nom  Prenom  Username  Mail  Site ")
+		for i in range(0, len(data)):
+			for j in range(0, len(data[0])):
+				print(data[i][j], end="   ")
+			print(" ")
