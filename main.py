@@ -49,31 +49,27 @@ def users_menu():
         users_menu()
 
 def ftp_menu():
-    choice = input("Press :\n1 pour Afficher le répertoire de travail actuel"
-                   "\n2 Listez les dossiers du ftp"
-                   "\n3 Etat du ftp"
-                   "\n4 Pour Push un fichier"
-                   "\n5 recup un audit ?"
-                   "\n6 quitter\n")
+    choice = input("Press : \n1 Listez les dossiers du ftp"
+                   "\n2 Etat du ftp"
+                   "\n3 Pour Push un fichier"
+                   "\n4 recup un audit ?"
+                   "\n5 quitter\n")
     if choice == "1":
-        whereami()
-        ftp_menu()
-    elif choice == "2":
         logs.writeInLogSimple(user.username, " a lancé le listage des dossiers")
         list()
         ftp_menu()
-    elif choice == "3":
+    elif choice == "2":
         logs.writeInLogSimple(user.username, " a demande l'etat du serveur ftp")
         etat()
         ftp_menu()
-    elif choice == "4":
+    elif choice == "3":
         logs.writeInLogSimple(user.username, " a lancé le push de fichier")
         copie()
         ftp_menu()
-    elif choice == "5":
+    elif choice == "4":
         logs.writeInLogSimple(user.username, " a lancé la recuperation du fichier d'audit")
         ftp_menu()
-    elif choice == "6":
+    elif choice == "5":
         main_menu()
     else:
         print("Wrong key")

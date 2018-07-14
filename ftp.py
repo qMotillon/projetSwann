@@ -31,9 +31,7 @@ def checkdirect():
             ftp.mkd(f)
             print(f," created")
 
-def whereami():
-    ftp = FTP('127.0.0.1', 'admin', 'root')
-    ftp.quit()
+
 
 def list():
     ftp = FTP('127.0.0.1', 'admin', 'root')
