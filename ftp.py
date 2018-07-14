@@ -1,3 +1,5 @@
+import os
+from os.path import basename
 from ftplib import FTP
 
 def etat():
@@ -12,10 +14,9 @@ def copie():
     print("On va copier un fichier dans le serveur ftp")
     list()
     search = input("Avant tout definis ton site afin de te faciliter dans ta recherche d'utilisateur\n").upper()
-    #fichier = input("Copie colle le chemin du fichier que tu veux copier\n")
-    fichier = "Truc_Paris.txt"
+    fichier = input("Copie colle le chemin du fichier que tu veux copier\n")
     file = open(fichier, 'rb')
-    ftp.storbinary('STOR ' + search + "/" + fichier, file)
+    ftp.storbinary('STOR ' + search + "/" + basename(fichier), file)
     file.close()
     print("Fichier copie dans", search)
     ftp.quit()
