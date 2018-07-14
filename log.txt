@@ -39,3 +39,13 @@
 [14/7/2018  19:51:13]  à lancer la gestion FTP
 [14/7/2018  19:51:15]  a lancé le push de fichier
 [14/7/2018  19:52:32]  à lancer la gestion FTP
+[14/7/2018  20:2:54]  à lancer la gestion d'User
+[14/7/2018  20:2:56]  a lancé la recherche d'User
+[14/7/2018  20:4:33]  à lancer la gestion FTP
+[14/7/2018  20:4:35]  a lancé le push de fichier
+[14/7/2018  20:6:4]  à lancer la gestion FTP
+[14/7/2018  20:6:5]  a lancé le push de fichier
+[14/7/2018  20:11:22]  à lancer la gestion FTP
+[14/7/2018  20:11:23]  a lancé le push de fichier
+[14/7/2018  20:15:6]  à lancer le scan de port
+[14/7/2018  20:15:40]  à lancer le bruteforce

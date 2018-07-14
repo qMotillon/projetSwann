@@ -12,9 +12,10 @@ def copie():
     print("On va copier un fichier dans le serveur ftp")
     list()
     search = input("Avant tout definis ton site afin de te faciliter dans ta recherche d'utilisateur\n").upper()
-    fichier = input("Copie colle le chemin du fichier que tu veux copier\n")
-    file = open(fichier, 'r')
-    ftp.storbinary('STOR ' + fichier, file)
+    #fichier = input("Copie colle le chemin du fichier que tu veux copier\n")
+    fichier = "Truc_Paris.txt"
+    file = open(fichier, 'rb')
+    ftp.storbinary('STOR ' + search + "/" + fichier, file)
     file.close()
     print("Fichier copie dans", search)
     ftp.quit()

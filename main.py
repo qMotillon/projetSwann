@@ -74,7 +74,7 @@ def ftp_menu():
         logs.writeInLogSimple(user.username, " a lancé la recuperation du fichier d'audit")
         ftp_menu()
     elif choice == "6":
-        return
+        main_menu()
     else:
         print("Wrong key")
         ftp_menu()
