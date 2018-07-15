@@ -101,6 +101,11 @@ def main_menu():
         smtp.lancement()
         main_menu()
     elif choice == "6":
+        filename = "log.txt"
+        with open(filename) as f:
+            data = f.readlines()
+        for n, line in enumerate(data,1):
+            print('{:2}.'.format(n), line.rstrip())
         # logs()
         main_menu()
     elif choice == "7":
@@ -109,5 +114,5 @@ def main_menu():
         print("Wrong key")
         main_menu()
 
-#user.login()
+user.login()
 main_menu()

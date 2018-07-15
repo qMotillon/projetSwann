@@ -2,14 +2,9 @@ import database
 import hashlib
 from hashlib import md5
 
-def bruteforce(
-
-
-
-
-):
+def bruteforce():
     username = input("Entrez votre pseudo : \n").upper()
-    your_list = 'abcdefghijklmnopqrstuvwxyz'
+    your_list = 'abcdefghijklmnopqrstuvwxyzQWERTYUIOPASDFGHJKLZXCVBNM0123456789'
     complete_list = []
     password = ""
     passwordHash = ""
@@ -28,8 +23,11 @@ def bruteforce(
                     for j in range(len(a)):
                         password = a[j]
                         passwordHash = md5(password.encode('utf-8')).hexdigest()
+                        #print("For l et ",password)
                         if(passwordHash == data[5]):
                             print("Le password est " + password)
-                            exit()
+                            return
+                    #print("For y et ", password)
+                #print("For current et ", password)
                 complete_list = complete_list + a
         print("Le password est "+ password)

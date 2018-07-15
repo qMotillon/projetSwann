@@ -28,13 +28,13 @@ def rangePorts():
 
     except KeyboardInterrupt:
         print("Vous avez annulé le scan")
-        sys.exit()
+        return
     except socket.gaierror:
         print('Mauvaise ip')
-        sys.exit()
+        return
     except socket.error:
         print("Impossible de se co au server")
-        sys.exit()
+        return
     endScan = datetime.now()
     total = endScan - startScan
     print("Scan complété en :",total)
@@ -56,10 +56,10 @@ def onePort():
 
     except KeyboardInterrupt:
         print("Vous avez annulé le scan")
-        sys.exit()
+        return
     except socket.gaierror:
         print('Mauvaise ip')
-        sys.exit()
+        return
     except socket.error:
         print("Impossible de se co au server")
-        sys.exit()
+        return

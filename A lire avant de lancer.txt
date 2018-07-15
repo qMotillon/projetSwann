@@ -1,0 +1,28 @@
+main.py
+	Differents menus
+	user_menu
+	ftp_menu
+	scan_port_menu
+	Ces menu sont appeller dans le main_menu
+	avant ce main menu une fonction login afin de bien definir qui est la 
+user.py
+	create
+	edit/delete
+	login
+	show all
+	search
+bruteforce.py
+	Demande username et brute force
+	ne fonctionne que pour 4 characters max
+		Amelioration : Mettre une limite au mdp ou en genere un de 4 automatiquement
+mail_bombing
+	mail bombing sur une cible gmail
+port scan
+	range de port 
+	port particulier
+ftp.py
+	push file dans le ftp quil veut
+	affiche les ftp
+	fonction de verif du ftp 
+database.py
+	connect sqlite avec le fichier db

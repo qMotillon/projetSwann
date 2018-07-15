@@ -17,15 +17,28 @@ class Users:
 		password_hash = input("Entre ton mdp\n")
 		password_hash = md5(password_hash.encode('utf-8')).hexdigest()
 		mail = input("Entre son mail lol \n").upper()
-		site = int(input("Site 1: Paris, Site 2 : Nantes, Site 3 : Lyon, Site 4 : Strasbourg\n"))
-		if(site == 1):
-			site="PARIS"
-		elif(site == 2):
-			site="NANTES"
-		elif(site == 3):
-			site="LYON"
+		if(self.role=="MASTER"):
+			site = input("Toi Master peut decider a quel site affecter : 1/Paris  2/Lyon  3/Strasbourg  4/Nantes\n")
+			if(site=="1"):
+				site = "PARIS"
+			elif(site=="2"):
+				site = "LYON"
+			elif (site == "3"):
+				site = "STRASBOURG"
+			else:
+				site = "NANTES"
 		else:
-			site="STRASBOURG"
+			print("Le site est automatiquement ajoute (PARIS,NANTES,LYON,STRASBOURG) et correspond au votre")
+			if(self.site=="LYON"):
+				site = "LYON"
+			elif(self.site=="NANTES"):
+				site="NANTES"
+			elif (self.site == "PARIS"):
+				site = "PARIS"
+			elif (self.site == "STRASBOURG"):
+				site = "STRASBOURG"
+			print("Il a donc ete affecte au site :", site)
+
 		role = input("Souhaitez vous que l'user soit un Admin? 1 = Oui, * = Non\n")
 		if(role =="1"):
 			role="ADMIN"
@@ -36,6 +49,7 @@ class Users:
 		c.execute("INSERT INTO users(role,nom,prenom,username,password_hash,mail,site) VALUES (?,?,?,?,?,?,?)", (role,nom,prenom,username,password_hash,mail,site,))
 		#c.execute("INSERT INTO users (id,nom,prenom,username,password_hash,mail,site)")
 		database.conn.commit()
+		print("User/Admin created\n")
 		logs.writeInLogDuo(self.username,username," à crée le user : ")
 
 	def login(self):
@@ -54,7 +68,7 @@ class Users:
 				print("Mauvais password\n")
 				password = input("Entre votre mdp : \n")
 				password = md5(password.encode('utf-8')).hexdigest()
-			if(data[1] != "ADMIN"):
+			if(data[1] != "ADMIN" and data[1] != "MASTER"):
 				print("Vous n'êtes pas admin")
 				self.login()
 			print("Connexion Réussi !!\n")
@@ -161,7 +175,7 @@ class Users:
 		c = database.conn.cursor()
 		c.execute("SELECT id,role,nom,prenom,username,mail,site FROM users WHERE username=:search OR id=:search OR site=:search OR nom=:search OR prenom=:search",{"search" : search})
 		data = c.fetchall()
-		print(data)
+		#print(data)
 		while(data==[]):
 			print("Mauvaise recherche")
 			search = input("Qui souhaitez vous chercher (id,username,site)\n").upper()
